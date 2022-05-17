@@ -1,7 +1,7 @@
 const {Thought, User} = require('../models');
 
 const thoughtController = {
-    getAllthoughts(req,res){
+    getAllThoughts(req,res){
         Thought.find({})
         .sort({_id: -1})
         .then(dbThoughtData => res.json(dbThoughtData))
@@ -26,7 +26,7 @@ const thoughtController = {
             res.json(dbThoughtData)
         })
         .catch(err => {
-            consolr.log(err);
+            console.log(err);
             res.status(400).json(err)
         });
 
@@ -100,6 +100,23 @@ const thoughtController = {
             res.json(dbThoughtData);
         })
         .catch(err => res.status(400).json(err));
+    },
+
+    deleteReaction({params}, res) {
+       Thought.findOneAndUpdate(
+           {_id: params.thoughtId},
+           {$pull: {reactions: {reactionId: params.reactionId}}},
+           { new: true}
+       )
+       .then(dbThoughtData => {
+           if (!dbThoughtData) {
+               res.status(404).json({message: 'No thought was linked with this id'})
+           return;
+            }
+            res.json(dbThoughtData);
+
+       })
+       .catch(err => res.status(400).json(err));
     }
 }
 

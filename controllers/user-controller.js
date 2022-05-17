@@ -39,7 +39,7 @@ const thoughtController = {
             res.json(dbUserData)
         })
         .catch(err => {
-            consolr.log(err);
+            console.log(err);
             res.status(400).json(err)
         });
 
