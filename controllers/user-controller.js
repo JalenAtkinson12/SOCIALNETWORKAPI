@@ -66,7 +66,7 @@ const thoughtController = {
 
     addFriend({ params}, res) {
         User.findOneAndUpdate(
-            {_id: params.Id},
+            { _id: params.id},
             {$push: {friends: params.friendId}},
             {new: true, runValidators: true}
         )
